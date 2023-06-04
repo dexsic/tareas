@@ -77,6 +77,10 @@ div .enviar{
  
 }
 
+.limpiar-btn {
+  visibility: hidden;
+}
+
 
 input{
   background-color:  #e8e8e8;

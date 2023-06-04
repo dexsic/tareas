@@ -1,4 +1,4 @@
-(() => {
+
     const Utils = {
       settings: {
         backendBaseUrl: "https://pokeapi.co/api/v2",
@@ -43,6 +43,4 @@
         }
         return evoArray;
     }
-    };
-    document.Utils = Utils;
-  })();
+  }
