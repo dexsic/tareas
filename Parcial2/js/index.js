@@ -1,25 +1,25 @@
 (() => {
     const App = {
         HTMLElements: {
-            pokemonFinderForm: document.querySelector('#pokemon-finder-form'),
-            pokemonFinderSearchType: document.querySelector("#pokemon-finder-search-type"),
-            pokemonFinderInput: document.querySelector("#pokemon-finder-query"),
-            pokemonFinderOutput: document.querySelector("#pokemon-finder-response"),
+            pokemonForm: document.querySelector('#pokemon-form'),
+            pokemonTipo: document.querySelector("#pokemon-tipo"),
+            pokemonBuscar: document.querySelector("#pokemon-buscar"),
+            pokemonCarta: document.querySelector("#pokemon-carta"),
             limpiar: document.querySelector("#limpiar"),
         },
         utils: Utils,
         templates: {
             render: ({ searchType, response }) => {
                 const renderMap = {
-                  ability: App.templates.abilityCard,
-                  pokemon: App.templates.pokemonCard,
+                  habilidad: App.templates.habilidad,
+                  pokemon: App.templates.pokemon,
                 };
                 return renderMap[searchType]
                   ? renderMap[searchType](response)
-                  : App.templates.errorCard();
+                  : App.templates.error();
               },
-              errorCard:  () => `<h1>There was an error</h1>`,
-           pokemonCard: ({ id, name, weight, height,abilities, sprites, types,chain_evolves }) => {
+              error:  () => `<h1>Error</h1>`,
+           pokemon: ({ id, name, weight, height,abilities, sprites, types,chain_evolves }) => {
 
             const evoList = chain_evolves.map(
               ({name, is_baby}) =>
@@ -39,7 +39,7 @@
             return `<div class="form-buscar"> <div class="card-header" style="background-image: url(${sprites.other.home.front_default})"></div><div class="card-body"><h2 class="name">${name}</h2><div class="sprites"><img id="first-sprite" src="${sprites.front_default}" alt="front-sprite"><img id="second-sprite" src="${sprites.back_default}" alt="back-sprite"></div> </div><div class="card-footer"><div class="stats"><div class="stat"><span class="label">Height</span><span class="value">${height}</span></div><div class="stat"><span class="label">Weight</span><span class="value">${weight}</span></div><div class="stat"><span class="label">ID#</span><span class="value">${id}</span></div></div><div class="stats"><div class="stat"><span class="label">Type</span>${typeList.join("")}</div><div class="stat"><span class="label">Abilities</span><ul>${abilitiesList.join("")}</ul></div><div class="stat"><span class="label">Evolution chain</span><ul>${evoList.join("")}<ul></div></div></div></div> </div>`;
           },
 
-          abilityCard: ({ id, name, pokemon }) => {
+          habilidad: ({ id, name, pokemon }) => {
             const pokemonList = pokemon.map(
               ({ pokemon, is_hidden }) =>
                 `<li><a>${pokemon.name}${
@@ -54,8 +54,8 @@
           pokemonFinderFormOnSubmit: async (e) => {
             e.preventDefault();
 
-            const queryForm = App.HTMLElements.pokemonFinderInput.value;
-            const searchType = App.HTMLElements.pokemonFinderSearchType.value;
+            const queryForm = App.HTMLElements.pokemonBuscar.value;
+            const searchType = App.HTMLElements.pokemonTipo.value;
             App.HTMLElements.limpiar.style.visibility = 'visible';
             
 
@@ -80,20 +80,20 @@
                 searchType,
                 response
               });
-              App.HTMLElements.pokemonFinderOutput.innerHTML = renderedTemplate;
+              App.HTMLElements.pokemonCarta.innerHTML = renderedTemplate;
             } catch (error) {
-              App.HTMLElements.pokemonFinderOutput.innerHTML = `<h1>${error}</h1>`;
+              App.HTMLElements.pokemonCarta.innerHTML = `<h1>${error}</h1>`;
             }
         },
         limpiar(e) {
           e.preventDefault();
-          App.HTMLElements.pokemonFinderForm.reset();
-          App.HTMLElements.pokemonFinderOutput.innerHTML = '';
+          App.HTMLElements.pokemonForm.reset();
+          App.HTMLElements.pokemonCarta.innerHTML = '';
           App.HTMLElements.limpiar.style.visibility = 'hidden';
         },
     },
     init (){
-      App.HTMLElements.pokemonFinderForm.addEventListener(
+      App.HTMLElements.pokemonForm.addEventListener(
           "submit",
           App.handlers.pokemonFinderFormOnSubmit
         );
